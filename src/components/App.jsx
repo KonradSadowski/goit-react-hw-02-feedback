@@ -1,8 +1,8 @@
-// App.js
 import React, { Component } from 'react';
-import Statistics from './components/Statistics';
-import FeedbackOptions from './components/FeedbackOptions';
-import Section from './components/Section';
+import Statistics from './Statistics/Statistics';
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
+import Section from './Section/Section';
+import Notification from './Notification/Notification';
 import css from './App.module.css';
 
 const INITIAL_STATE = {
@@ -35,6 +35,7 @@ class App extends Component {
     const { good, neutral, bad } = this.state;
     const totalFeedback = this.countTotalFeedback();
     const positivePercentage = this.countPositiveFeedbackPercentage();
+    const hasFeedback = totalFeedback > 0;
 
     return (
       <div className={css.wrapper}>
@@ -46,13 +47,17 @@ class App extends Component {
         </Section>
 
         <Section title="Statistics">
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={totalFeedback}
-            positivePercentage={positivePercentage}
-          />
+          {hasFeedback ? (
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={totalFeedback}
+              positivePercentage={positivePercentage}
+            />
+          ) : (
+            <Notification message="There is no feedback" />
+          )}
         </Section>
       </div>
     );
